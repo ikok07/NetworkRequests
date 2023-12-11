@@ -8,8 +8,7 @@
 import UIKit
 import JSONCoder
 
-struct FormData {
-    
+public extension Request {
     static func patchFormData<T: Codable>(url: String, json: Data? = nil, images: [UIImage]? = nil, authToken: String? = nil) async -> Result<T?, NetworkError> {
         
         let boundary = FormData.generateBoundary()
@@ -38,7 +37,9 @@ struct FormData {
         return .failure(.networkError)
         
     }
-    
+}
+
+public struct FormData {
     
     static func generateBoundary() -> String {
         return "Boundary-\(UUID().uuidString)"

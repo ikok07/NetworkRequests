@@ -5,7 +5,7 @@ import Foundation
 import JSONCoder
 import SwiftMacros
 
-struct Request {
+public struct Request {
     
 }
 

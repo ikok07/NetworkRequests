@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import JSONCoder
+import SwiftMacros
+import UIKit
 
 
-@available(iOS 15.0, *)
-extension Request {
-    
-    static func get<T: Codable>(url: String, authToken: String? = nil) async -> Result<T, Error> {
+public extension Request {
+    static func get<T: Codable>(url: String, authToken: String? = nil) async -> Result<T, NetworkError> {
         var request = URLRequest(url: URL(string: url)!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
@@ -19,10 +20,14 @@ extension Request {
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
-            
+            let decodedData: T? = JSONCoder.decode(data)
+            if let decodedData {
+                return .success(decodedData)
+            }
         } catch {
-            
+            return .failure(.dataCouldNotBeDecoded)
         }
+        
+        return .failure(.networkError)
     }
-    
 }

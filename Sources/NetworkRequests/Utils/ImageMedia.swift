@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ImageMedia: Codable {
+public struct ImageMedia: Codable {
     let key: String
     let data: Data?
     let mimeType: String
