@@ -9,7 +9,7 @@ import Foundation
 import JSONCoder
 
 public extension Request {
-    static func delete<T: Codable>(url: String, authToken: String? = nil) async -> Result<T?, NetworkError> {
+    static func delete<T: Codable>(url: String, authToken: String? = nil) async -> Result<T, NetworkError> {
         var request = URLRequest(url: URL(string: url)!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "DELETE"
