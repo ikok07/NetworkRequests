@@ -59,17 +59,18 @@ public struct FormData {
             body.append(json)
         }
 
-        if let images = images {
+        if let images {
             for imageData in images {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
                 body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
                 body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
                 body.append(imageData)
             }
-            body.append("\r\n".data(using: .utf8)!)
         }
         
         body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        print(String(data: body, encoding: .utf8))
         
         return body
     }
