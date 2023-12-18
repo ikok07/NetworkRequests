@@ -14,7 +14,11 @@ public extension Request {
         let boundary = FormData.generateBoundary()
         var imagesData: [Data] = []
         
-        imagesData = images.map({ ImageMedia(withImage: $0, key: "image").data ?? .init() })
+        for image in images {
+            if let image {
+                imagesData.append(ImageMedia(withImage: image, key: "image").data!)
+            }
+        }
         
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = "PATCH"
@@ -57,7 +61,6 @@ public struct FormData {
         }
 
         if let images = images {
-            print(images.count)
             for imageData in images {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
                 body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
