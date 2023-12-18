@@ -57,6 +57,7 @@ public struct FormData {
         }
 
         if let images = images {
+            print(images.count)
             for imageData in images {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
                 body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
