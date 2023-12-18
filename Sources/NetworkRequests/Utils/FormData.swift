@@ -53,15 +53,16 @@ public struct FormData {
             body.append("Content-Disposition: form-data; name=\"name\"\r\n".data(using: .utf8)!)
             body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
             body.append(json)
+            body.append("\r\n".data(using: .utf8)!)
         }
-        
+
         if let images = images {
-            body.append("\r\n--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-            
-            for image in images {
-                body.append(image)
+            for imageData in images {
+                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
+                body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+                body.append(imageData)
+                body.append("\r\n".data(using: .utf8)!)
             }
         }
         
