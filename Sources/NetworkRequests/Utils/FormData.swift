@@ -9,7 +9,7 @@ import UIKit
 import JSONCoder
 
 public extension Request {
-    static func patchFormData<T: Codable>(url: String, json: Data? = nil, images: [UIImage]? = nil, authToken: String? = nil) async -> Result<T?, NetworkError> {
+    static func patchFormData<T: Codable>(url: String, json: Data? = nil, images: [UIImage]? = nil, authToken: String? = nil) async -> Result<T, NetworkError> {
         
         let boundary = FormData.generateBoundary()
         var imagesData: [Data] = []
