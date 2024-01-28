@@ -9,13 +9,13 @@ import UIKit
 import JSONCoder
 
 public extension Request {
-    static func patchFormData<T: Codable>(url: String, json: Data? = nil, image: UIImage? = nil, authToken: String? = nil) async -> Result<T, NetworkError> {
+    static func formData<T: Codable>(httpMethod: String, url: String, json: Data? = nil, image: UIImage? = nil, authToken: String? = nil) async -> Result<T, NetworkError> {
         
         let boundary = FormData.generateBoundary()
         let imageData = ImageMedia(withImage: image, key: "image").data
         
         var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "PATCH"
+        request.httpMethod = httpMethod
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(authToken ?? "")", forHTTPHeaderField: "Authorization")
         request.httpBody = FormData.createBody(json: json, image: imageData, boundary: boundary)
