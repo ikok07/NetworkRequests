@@ -53,7 +53,7 @@ public struct FormData {
                     body.append("--\(boundary)\r\n".data(using: .utf8)!)
                     body.append("Content-Disposition: form-data; name=\"\(itm.key)\"\r\n".data(using: .utf8)!)
                     body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
-                    body.append("\(itm)\r\n".data(using: .utf8)!)
+                    body.append("\(itm.value)\r\n".data(using: .utf8)!)
                 }
             }
         }
