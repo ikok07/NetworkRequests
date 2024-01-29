@@ -23,8 +23,9 @@ public extension Request {
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
+            print("BEFORE DECODED DATA: \(String(describing: String(data: data, encoding: .utf8)))")
             let decodedData: T? = JSONCoder.decode(data)
-            print("DECODED DATA: \(String(describing: decodedData))")
+//            print("DECODED DATA: \(String(describing: decodedData))")
             if let decodedData {
                 return .success(decodedData)
             }
