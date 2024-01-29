@@ -47,10 +47,15 @@ public struct FormData {
         var body = Data()
         
         if let json = json {
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"name\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
-            body.append(json)
+            let jsonDict: [String: Any]? = JSONCoder.serialize(json)
+            if let dict = jsonDict {
+                for itm in dict {
+                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                    body.append("Content-Disposition: form-data; name=\"\(itm.key)\"\r\n".data(using: .utf8)!)
+                    body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
+                    body.append("\(itm)\r\n".data(using: .utf8)!)
+                }
+            }
         }
         
         if let image = image {
