@@ -9,7 +9,7 @@ import UIKit
 import JSONCoder
 
 public extension Request {
-    static func formData<T: Codable>(httpMethod: String, url: String, json: Data? = nil, image: UIImage? = nil, authToken: String? = nil) async -> Result<T, NetworkError> {
+    static func formData<T: Codable>(httpMethod: String, url: String, json: Data?, image: UIImage?, authToken: String? = nil) async -> Result<T, NetworkError> {
         
         let boundary = FormData.generateBoundary()
         let imageData = ImageMedia(withImage: image, key: "image").data
