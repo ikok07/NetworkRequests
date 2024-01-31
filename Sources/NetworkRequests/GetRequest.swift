@@ -12,7 +12,7 @@ import UIKit
 
 
 public extension Request {
-    static func get<T: Codable>(url: String, authToken: String? = nil, showRawResponseData: Bool = false) async -> Result<T, NetworkError> {
+    static func get<T: Codable>(url: String, authToken: String?, showRawResponseData: Bool = false) async -> Result<T, NetworkError> {
         var request = URLRequest(url: URL(string: url)!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
