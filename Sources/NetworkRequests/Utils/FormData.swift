@@ -50,11 +50,11 @@ public struct FormData {
         if let json = json {
             let jsonDict: [String: Any]? = JSONCoder.serialize(json)
             if let dict = jsonDict {
-                for itm in dict {
+                for (index, itm) in dict.enumerated() {
                     body.append("--\(boundary)\r\n".data(using: .utf8)!)
                     body.append("Content-Disposition: form-data; name=\"\(itm.key)\"\r\n".data(using: .utf8)!)
                     body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
-                    body.append("\(itm.value)\r\n".data(using: .utf8)!)
+                    body.append("\(itm.value)\(index < dict.count - 1 ? "\r\n" : "")".data(using: .utf8)!)
                 }
             }
         }
