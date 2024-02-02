@@ -56,6 +56,11 @@ public struct FormData {
                     body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
                     body.append("\(itm.value)\(index < dict.count - 1 ? "\r\n" : "")".data(using: .utf8)!)
                 }
+            } else {
+                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"name\"\r\n".data(using: .utf8)!)
+                body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
+                body.append(json)
             }
         }
         
