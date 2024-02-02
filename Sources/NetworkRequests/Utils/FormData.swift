@@ -9,7 +9,7 @@ import UIKit
 import JSONCoder
 
 public extension Request {
-    static func formData<T: Codable>(httpMethod: String, url: String, json: Data?, image: UIImage?, authToken: String? = nil) async -> Result<T, NetworkError> {
+    static func formData<T: Codable>(httpMethod: String, url: String, json: Data?, image: UIImage?, authToken: String?, debugMode: Bool = false) async -> Result<T, NetworkError> {
         
         let boundary = FormData.generateBoundary()
         let imageData = ImageMedia(withImage: image, key: "image").data
@@ -19,13 +19,19 @@ public extension Request {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(authToken ?? "")", forHTTPHeaderField: "Authorization")
         request.httpBody = FormData.createBody(json: json, image: imageData, boundary: boundary)
-        print("REQUEST DATA: \(String(data: FormData.createBody(json: json, image: imageData, boundary: boundary), encoding: .utf8))")
+        if debugMode {
+            print("REQUEST DATA: \(String(data: FormData.createBody(json: json, image: imageData, boundary: boundary), encoding: .utf8))")
+        }
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
-            print("BEFORE DECODED DATA: \(String(describing: String(data: data, encoding: .utf8)))")
+            if debugMode {
+                print("BEFORE DECODED DATA: \(String(describing: String(data: data, encoding: .utf8)))")
+            }
             let decodedData: T? = JSONCoder.decode(data)
-//            print("DECODED DATA: \(String(describing: decodedData))")
+            if debugMode {
+                print("DECODED DATA: \(String(describing: decodedData))")
+            }
             if let decodedData {
                 return .success(decodedData)
             }
