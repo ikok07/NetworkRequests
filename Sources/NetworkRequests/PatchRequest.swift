@@ -9,7 +9,7 @@ import Foundation
 import JSONCoder
 
 public extension Request {
-    static func patch<T: Codable, B: Codable>(url: String, body: B, authToken: String? = nil, showRawResponseData: Bool = false) async -> Result<T, NetworkError> {
+    static func patch<T: Codable, B: Codable>(url: String, body: B, authToken: String? = nil, debugMode: Bool = false) async -> Result<T, NetworkError> {
         var request = URLRequest(url: URL(string: url)!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "PATCH"
@@ -20,11 +20,13 @@ public extension Request {
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
-            if showRawResponseData {
+            if debugMode {
                 print("RESPONSE RAW DATA: \(String(describing: String(data: data, encoding: .utf8)))")
             }
             let decodedData: T? = JSONCoder.decode(data)
-            print("RESPONSE DATA: \(String(describing: decodedData))")
+            if debugMode {
+                print("RESPONSE DATA: \(String(describing: decodedData))")
+            }
             if let decodedData {
                 return .success(decodedData)
             }
