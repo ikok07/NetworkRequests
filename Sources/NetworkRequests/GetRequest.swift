@@ -9,10 +9,16 @@ import Foundation
 import JSONCoder
 import SwiftMacros
 import UIKit
+import Toolchain
 
 
 public extension Request {
     static func get<T: Codable>(url: String, authToken: String?, debugMode: Bool = false) async -> Result<T, NetworkError> {
+        guard NetUtil.shared.networkInfo.isAvailable else {
+            return .failure(.noConnection)
+        }
+        
+        
         var request = URLRequest(url: URL(string: url)!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"

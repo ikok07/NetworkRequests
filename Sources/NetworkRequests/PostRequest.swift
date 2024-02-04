@@ -7,10 +7,15 @@
 
 import Foundation
 import JSONCoder
+import Toolchain
 
 public extension Request {
     
     static func post<T: Codable, B: Codable>(url: String, body: B, authToken: String?, debugMode: Bool = false) async -> Result<T, NetworkError> {
+        guard NetUtil.shared.networkInfo.isAvailable else {
+            return .failure(.noConnection)
+        }
+        
         var request = URLRequest(url: URL(string: url)!)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"

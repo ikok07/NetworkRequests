@@ -7,9 +7,13 @@
 
 import UIKit
 import JSONCoder
+import Toolchain
 
 public extension Request {
     static func formData<T: Codable>(httpMethod: String, url: String, json: Data?, image: UIImage?, authToken: String?, debugMode: Bool = false) async -> Result<T, NetworkError> {
+        guard NetUtil.shared.networkInfo.isAvailable else {
+            return .failure(.noConnection)
+        }
         
         let boundary = FormData.generateBoundary()
         let imageData = ImageMedia(withImage: image, key: "image").data
@@ -20,7 +24,7 @@ public extension Request {
         request.setValue("Bearer \(authToken ?? "")", forHTTPHeaderField: "Authorization")
         request.httpBody = FormData.createBody(json: json, image: imageData, boundary: boundary)
         if debugMode {
-            print("REQUEST DATA: \(String(data: FormData.createBody(json: json, image: imageData, boundary: boundary), encoding: .utf8))")
+            print("REQUEST DATA: \(String(describing: String(data: FormData.createBody(json: json, image: imageData, boundary: boundary), encoding: .utf8)))")
         }
         
         do {
