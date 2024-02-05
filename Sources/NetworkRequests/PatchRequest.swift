@@ -22,8 +22,8 @@ public extension Request {
         request.httpBody = JSONCoder.encode(body)
         print("REQUEST URL: \(url)")
         
-        if debugMode {
-            print(JSONCoder.encode(body) as Any)
+        if debugMode, let jsonBody = JSONCoder.encode(body) {
+            print(String(data: jsonBody, encoding: .utf8) as Any)
         }
         
         do {
