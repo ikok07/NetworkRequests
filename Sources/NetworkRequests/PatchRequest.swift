@@ -22,6 +22,9 @@ public extension Request {
         request.httpBody = JSONCoder.encode(body)
         print("REQUEST URL: \(url)")
         
+        if debugMode {
+            print(body)
+        }
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
