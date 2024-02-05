@@ -24,7 +24,7 @@ public extension Request {
         print("REQUEST URL: \(url)")
         
         if debugMode {
-            print(body)
+            print(JSONCoder.encode(body) as Any)
         }
         
         do {
