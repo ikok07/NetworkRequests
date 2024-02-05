@@ -7,21 +7,20 @@
 
 import Foundation
 
-public enum NetworkError: Error {
+public enum NetworkError: String, Error, LocalizedError {
     
     case dataCouldNotBeDecoded
     case networkError
     case noConnection
     
-    var localizedDescription: String {
+    public var errorDescription: String? {
         switch self {
         case .dataCouldNotBeDecoded:
-            "Network Request Error: Data could not be decoded."
+            NSLocalizedString("Network Request Error: Data could not be decoded.", comment: self.rawValue)
         case .networkError:
-            "Network Request Error: Error connecting to server"
+            NSLocalizedString("Network Request Error: Error connecting to server", comment: self.rawValue)
         case .noConnection:
-            "There is no internet connection"
+            NSLocalizedString("There is no internet connection", comment: self.rawValue)
         }
     }
-    
 }
