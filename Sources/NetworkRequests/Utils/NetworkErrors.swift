@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum NetworkError: LocalizedError {
+public enum NetworkError: Error {
     
     case dataCouldNotBeDecoded
     case networkError
