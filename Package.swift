@@ -18,6 +18,7 @@ let package = Package(
         .package(url: "https://github.com/bernndr/swift-macros.git", branch: "main"),
         .package(url: "https://github.com/ikok07/Toolchain.git", branch: "main"),
         .package(url: "https://github.com/ikok07/JSONCoder.git", branch: "main"),
+        .package(url: "https://github.com/realm/realm-swift.git", branch: "master")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +28,8 @@ let package = Package(
             dependencies: [
                 .product(name: "SwiftMacros", package: "swift-macros"),
                 .product(name: "Toolchain", package: "Toolchain"),
-                .product(name: "JSONCoder", package: "JSONCoder")
+                .product(name: "JSONCoder", package: "JSONCoder"),
+                .product(name: "RealmSwift", package: "realm-swift")
             ]
         ),
         .testTarget(
